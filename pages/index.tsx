@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
+import MoviesRow from '../components/MoviesRow'
 import { Movie } from '../types'
 import requests from '../utils/requests'
 
@@ -20,7 +21,7 @@ function Home({
   netflixOriginals, actionMovies, comedyMovies, documentaries, horrorMovies, romanceMovies, topRated, trendingNow,
 }: Props) {
   return (
-    <div className="relative h-screen bg-gradient-to-b from-gray-900/10 to-[#010511] lg:h-[140vh]">
+    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
         <title>Home - Netflix</title>
         <link rel="icon" href="/favicon.ico" />
@@ -28,7 +29,18 @@ function Home({
       <Header />
       <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
         <Banner netflixOriginals={netflixOriginals} />
-        <section></section>
+        <section className='md:space-y-24'>
+          <MoviesRow title="Trending Now" movies={trendingNow} />
+          <MoviesRow title="Top Rated" movies={topRated} />
+          <MoviesRow title="Action Thrillers" movies={actionMovies} />
+          {/* My List */}
+          {/* {list.length > 0 && <MoviesRow title="My List" movies={list} />} */}
+
+          <MoviesRow title="Comedies" movies={comedyMovies} />
+          <MoviesRow title="Scary Movies" movies={horrorMovies} />
+          <MoviesRow title="Romance Movies" movies={romanceMovies} />
+          <MoviesRow title="Documentaries" movies={documentaries} />
+        </section>
       </main>
     </div>
   )
