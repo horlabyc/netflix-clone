@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
 import MoviesRow from '../components/MoviesRow'
+import useAuth from '../hooks/useAuth'
 import { Movie } from '../types'
 import requests from '../utils/requests'
 
@@ -20,36 +21,38 @@ interface Props {
 function Home({
   netflixOriginals, actionMovies, comedyMovies, documentaries, horrorMovies, romanceMovies, topRated, trendingNow,
 }: Props) {
-  return (
+    const { loading } = useAuth()
+    if (loading) return null
+    return (
     <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
-      <Head>
+        <Head>
         <title>Home - Netflix</title>
         <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
-      <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
+        </Head>
+        <Header />
+        <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
         <Banner netflixOriginals={netflixOriginals} />
         <section className='md:space-y-24'>
-          <MoviesRow title="Trending Now" movies={trendingNow} />
-          <MoviesRow title="Top Rated" movies={topRated} />
-          <MoviesRow title="Action Thrillers" movies={actionMovies} />
-          {/* My List */}
-          {/* {list.length > 0 && <MoviesRow title="My List" movies={list} />} */}
+            <MoviesRow title="Trending Now" movies={trendingNow} />
+            <MoviesRow title="Top Rated" movies={topRated} />
+            <MoviesRow title="Action Thrillers" movies={actionMovies} />
+            {/* My List */}
+            {/* {list.length > 0 && <MoviesRow title="My List" movies={list} />} */}
 
-          <MoviesRow title="Comedies" movies={comedyMovies} />
-          <MoviesRow title="Scary Movies" movies={horrorMovies} />
-          <MoviesRow title="Romance Movies" movies={romanceMovies} />
-          <MoviesRow title="Documentaries" movies={documentaries} />
+            <MoviesRow title="Comedies" movies={comedyMovies} />
+            <MoviesRow title="Scary Movies" movies={horrorMovies} />
+            <MoviesRow title="Romance Movies" movies={romanceMovies} />
+            <MoviesRow title="Documentaries" movies={documentaries} />
         </section>
-      </main>
+        </main>
     </div>
-  )
+    )
 }
 
 export default Home
 
 export const getServerSideProps = async () => {
-  const [
+    const [
     netflixOriginals,
     trendingNow,
     topRated,
@@ -58,7 +61,7 @@ export const getServerSideProps = async () => {
     horrorMovies,
     romanceMovies,
     documentaries,
-  ] = await Promise.all([
+    ] = await Promise.all([
     fetch(requests.fetchNetflixOriginals).then((res) => res.json()),
     fetch(requests.fetchTrending).then((res) => res.json()),
     fetch(requests.fetchTopRated).then((res) => res.json()),
@@ -67,18 +70,18 @@ export const getServerSideProps = async () => {
     fetch(requests.fetchHorrorMovies).then((res) => res.json()),
     fetch(requests.fetchRomanceMovies).then((res) => res.json()),
     fetch(requests.fetchDocumentaries).then((res) => res.json()),
-  ])
- 
-  return {
+    ])
+
+    return {
     props: {
-      netflixOriginals: netflixOriginals.results,
-      trendingNow: trendingNow.results,
-      topRated: topRated.results,
-      actionMovies: actionMovies.results,
-      comedyMovies: comedyMovies.results,
-      horrorMovies: horrorMovies.results,
-      romanceMovies: romanceMovies.results,
-      documentaries: documentaries.results,
+        netflixOriginals: netflixOriginals.results,
+        trendingNow: trendingNow.results,
+        topRated: topRated.results,
+        actionMovies: actionMovies.results,
+        comedyMovies: comedyMovies.results,
+        horrorMovies: horrorMovies.results,
+        romanceMovies: romanceMovies.results,
+        documentaries: documentaries.results,
     }
-  }
+    }
 }
