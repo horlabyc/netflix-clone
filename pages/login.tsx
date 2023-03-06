@@ -1,6 +1,6 @@
 import Head from "next/head"
 import Image from 'next/image'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 
@@ -11,7 +11,7 @@ interface Inputs {
 
 function login() {
     const [login, setLogin] = useState(false)
-    const { signIn, signUp } = useAuth()
+    const { signIn, signUp, logout, user } = useAuth()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
         if (login) {
@@ -19,7 +19,7 @@ function login() {
         } else {
             await signUp(email, password)
         }
-}
+    }
 
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center mg:bg-transparent">
@@ -29,7 +29,7 @@ function login() {
       </Head>
       <Image
         src="https://rb.gy/p2hphi"
-        fill
+        layout="fill"
         className="-z-1 !hidden opacity-60 sm:!inline"
         style={{objectFit: 'cover'}}
         alt=""
