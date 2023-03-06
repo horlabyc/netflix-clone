@@ -26,32 +26,32 @@ function Home({
 }: Props) {
    const { loading } = useAuth()
    const showModal = useRecoilValue(modalState)
-    if (loading) return null
-    return (
-    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
-        <Head>
-        <title>Home - Netflix</title>
-        <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Header />
-        <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
-            <Banner netflixOriginals={netflixOriginals} />
-            <section className='md:space-y-24'>
-                <MoviesRow title="Trending Now" movies={trendingNow} />
-                <MoviesRow title="Top Rated" movies={topRated} />
-                <MoviesRow title="Action Thrillers" movies={actionMovies} />
-                {/* My List */}
-                {/* {list.length > 0 && <MoviesRow title="My List" movies={list} />} */}
+   if (loading) return null
+   return (
+   <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${showModal && '!h-screen overflow-hidden'}`}>
+      <Head>
+      <title>Home - Netflix</title>
+      <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Header />
+      <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
+         <Banner netflixOriginals={netflixOriginals} />
+         <section className='md:space-y-24'>
+               <MoviesRow title="Trending Now" movies={trendingNow} />
+               <MoviesRow title="Top Rated" movies={topRated} />
+               <MoviesRow title="Action Thrillers" movies={actionMovies} />
+               {/* My List */}
+               {/* {list.length > 0 && <MoviesRow title="My List" movies={list} />} */}
 
-                <MoviesRow title="Comedies" movies={comedyMovies} />
-                <MoviesRow title="Scary Movies" movies={horrorMovies} />
-                <MoviesRow title="Romance Movies" movies={romanceMovies} />
-                <MoviesRow title="Documentaries" movies={documentaries} />
-            </section>
-        </main>
-        {showModal && <Modal />}
+               <MoviesRow title="Comedies" movies={comedyMovies} />
+               <MoviesRow title="Scary Movies" movies={horrorMovies} />
+               <MoviesRow title="Romance Movies" movies={romanceMovies} />
+               <MoviesRow title="Documentaries" movies={documentaries} />
+         </section>
+      </main>
+      {showModal && <Modal />}
     </div>
-    )
+   )
 }
 
 export default Home
